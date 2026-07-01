@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>學習路上</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230d5b56'/><path d='M14 46 L28 30 L38 40 L52 20' fill='none' stroke='%23c8971b' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/><circle cx='52' cy='20' r='4' fill='%23c8971b'/></svg>">
+<style>
+  :root {
+    --primary: #0d5b56;      /* 深теal */
+    --primary-deep: #094642;
+    --gold: #c8971b;
+    --gold-soft: #e8c25a;
+    --active: #fff3d6;       /* 選中分頁高亮底（沿用黃色高亮規則） */
+    --active-text: #7a5a10;
+    --active-icon: #c8971b;
+    --bg: #f4f7f6;
+    --card: #ffffff;
+    --text: #26362f;
+    --muted: #7f938c;
+    --border: #e0ebe7;
+    --success: #2e9e7b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { height: 100%; }
+  body {
+    height: 100%; display: flex; flex-direction: column;
+    font-family: 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', system-ui, sans-serif;
+    background: var(--bg); color: var(--text); letter-spacing: .01em;
+    -webkit-font-smoothing: antialiased;
+  }
+  #page-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  a { color: var(--primary); }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(120deg, #0d5b56 0%, #10716a 60%, #14877d 100%);
+    color: #eafaf6; padding: 1.2rem 1.4rem 1.5rem; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-soft), var(--gold));
+  }
+  .hero .road { font-size: 1.9rem; margin-bottom: .2rem; }
+  .hero h1 { font-size: clamp(1.6rem, 5vw, 2.3rem); font-weight: 800; letter-spacing: .08em; }
+  .hero p { font-size: .9rem; opacity: .9; margin-top: .35rem; }
+  .hero .stat { margin-top: .9rem; display: inline-block; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.25); border-radius: 40px; padding: .35rem 1rem; font-size: .85rem; font-weight: 700; }
+
+  /* BOTTOM NAV */
+  .bottom-nav {
+    position: relative; z-index: 9000; flex-shrink: 0; background: rgba(255,255,255,.97);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid var(--border); box-shadow: 0 -2px 16px rgba(13,91,86,.08);
+    display: flex; justify-content: space-around; align-items: stretch;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .bottom-nav button {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    background: none; border: none; padding: 8px 0 9px; cursor: pointer;
+    color: var(--muted); font-size: .68rem; font-weight: 700; font-family: inherit; white-space: nowrap;
+    -webkit-tap-highlight-color: transparent; transition: color .18s, background .18s;
+  }
+  .bottom-nav button .ic { font-size: 1.25rem; line-height: 1; filter: grayscale(.2); }
+  .bottom-nav button.active { color: var(--active-text); background: var(--active); }
+  .bottom-nav button.active .ic { filter: none; }
+
+  .wrap { max-width: 820px; margin: 0 auto; padding: 1.1rem 1rem 5rem; }
+  .tab { display: none; }
+  .tab.active { display: block; animation: fade .25s; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .subj-head { display: flex; align-items: center; gap: .6rem; margin-bottom: .3rem; }
+  .subj-head .em { font-size: 1.8rem; }
+  .subj-head h2 { font-size: 1.3rem; color: var(--primary); font-weight: 800; }
+  .lead { color: var(--muted); font-size: .9rem; line-height: 1.6; margin-bottom: 1rem; }
+
+  .mode-btns { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; margin-bottom: 1.1rem; }
+  .mode-btn {
+    background: var(--card); border: 1.5px solid var(--border); border-radius: 16px; padding: 1rem .8rem;
+    text-align: center; cursor: pointer; font-family: inherit; transition: .15s;
+  }
+  .mode-btn:hover { border-color: var(--primary); transform: translateY(-2px); }
+  .mode-btn .mi { font-size: 1.6rem; }
+  .mode-btn .mt { font-weight: 800; color: var(--primary); margin-top: .3rem; font-size: 1rem; }
+  .mode-btn .ms { font-size: .76rem; color: var(--muted); margin-top: .2rem; }
+
+  /* QUIZ */
+  .q-start { text-align: center; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem 1.1rem; }
+  .q-start h3 { color: var(--primary); margin: .4rem 0; }
+  .q-start p { color: var(--muted); font-size: .9rem; margin-bottom: 1rem; }
+  .btn { display: inline-block; background: linear-gradient(135deg, #12706a, #0d5b56); color: #fff; font-weight: 800; font-size: 1rem; font-family: inherit; border: none; border-radius: 40px; padding: .72rem 1.7rem; cursor: pointer; box-shadow: 0 4px 12px rgba(13,91,86,.3); }
+  .btn:hover { transform: translateY(-2px); transition: .15s; }
+  .btn-ghost { background: #fff; color: var(--primary); border: 1.5px solid var(--primary); box-shadow: none; }
+  .btn-gold { background: linear-gradient(135deg, var(--gold-soft), var(--gold)); color: #4a3708; box-shadow: 0 4px 12px rgba(200,151,27,.35); }
+
+  .q-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: .8rem; font-weight: 700; color: var(--primary); font-size: .88rem; }
+  .q-prog { flex: 1; height: 9px; background: #e0ebe7; border-radius: 20px; margin: 0 .7rem; overflow: hidden; }
+  .q-prog > div { height: 100%; background: linear-gradient(90deg, var(--gold-soft), var(--gold)); transition: width .3s; }
+  .q-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 1.2rem 1.1rem; }
+  .q-tag { font-size: .72rem; font-weight: 700; color: var(--primary); background: #e2f1ee; display: inline-block; padding: .12rem .6rem; border-radius: 20px; margin-bottom: .6rem; }
+  .q-text { font-size: 1.08rem; font-weight: 800; margin-bottom: 1rem; line-height: 1.55; }
+  .opt { display: block; width: 100%; text-align: left; font-family: inherit; background: #f7fbfa; border: 1.5px solid var(--border); border-radius: 12px; padding: .75rem .9rem; margin-bottom: .55rem; font-size: .98rem; font-weight: 600; color: var(--text); cursor: pointer; transition: .12s; }
+  .opt:hover:not(:disabled) { border-color: var(--primary); }
+  .opt.correct { background: #e2f5ee; border-color: var(--success); color: #1f7d5b; }
+  .opt.wrong { background: #fde8e8; border-color: #e88; color: #b45; }
+  .q-fb { margin-top: .8rem; font-weight: 800; text-align: center; font-size: 1rem; }
+  .q-fb.ok { color: var(--success); }
+  .q-fb.no { color: #d67; }
+  .q-exp { margin-top: .7rem; padding: .7rem .85rem; border-radius: 12px; background: #fbf4dd; border: 1px dashed var(--gold); color: #6b5210; font-weight: 600; font-size: .9rem; line-height: 1.6; text-align: left; }
+  .q-next { display: block; width: 100%; margin-top: .9rem; }
+  .q-result { text-align: center; background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 1.7rem 1.1rem; }
+  .q-result .big { font-size: 2.6rem; }
+  .q-result h3 { color: var(--primary); margin: .4rem 0; }
+  .q-result .sc { font-weight: 700; margin-bottom: 1.1rem; }
+
+  /* ESSAY */
+  .essay-list .e-item { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: .9rem 1rem; margin-bottom: .6rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: .6rem; }
+  .essay-list .e-item:hover { border-color: var(--primary); }
+  .essay-list .e-q { font-weight: 700; line-height: 1.5; }
+  .essay-list .go { color: var(--gold); font-weight: 800; flex: none; }
+  .essay-panel .e-prompt { background: #e2f1ee; border-radius: 12px; padding: .8rem 1rem; font-weight: 700; color: var(--primary); line-height: 1.6; margin-bottom: .3rem; }
+  .essay-panel .e-guide { font-size: .82rem; color: var(--muted); margin: .3rem 0 .8rem; line-height: 1.6; }
+  .essay-tools { display: flex; gap: .5rem; margin-bottom: .5rem; }
+  .e-btn { background: #fff; border: 1.5px solid var(--primary); color: var(--primary); border-radius: 30px; padding: .42rem .95rem; font-weight: 800; font-size: .86rem; font-family: inherit; cursor: pointer; }
+  .e-btn.rec { background: #ffe0e0; border-color: #e88; color: #c44; }
+  .essay-input { width: 100%; min-height: 170px; border: 1.5px solid var(--border); border-radius: 14px; padding: .85rem; font-size: 1rem; font-family: inherit; line-height: 1.8; outline: none; resize: vertical; background: #fff; color: var(--text); }
+  .essay-input:focus { border-color: var(--primary); }
+  .essay-fb { margin-top: .9rem; background: var(--card); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 14px; padding: 1rem 1.1rem; line-height: 1.85; white-space: pre-wrap; }
+  .essay-fb h4 { color: var(--primary); margin: .6rem 0 .2rem; font-size: 1rem; }
+  .back-link { color: var(--muted); font-size: .85rem; font-weight: 700; cursor: pointer; display: inline-block; margin-bottom: .7rem; }
+
+  /* PROGRESS */
+  .prog-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1rem 1.1rem; margin-bottom: .8rem; }
+  .prog-card .pt { font-weight: 800; color: var(--primary); display: flex; justify-content: space-between; }
+  .prog-bar { height: 12px; background: #e0ebe7; border-radius: 20px; overflow: hidden; margin-top: .5rem; }
+  .prog-bar > div { height: 100%; background: linear-gradient(90deg, var(--gold-soft), var(--gold)); }
+  .prog-sub { font-size: .8rem; color: var(--muted); margin-top: .35rem; }
+  .note { background: #eef6f4; border: 1px solid var(--border); border-radius: 12px; padding: .75rem .95rem; font-size: .86rem; color: #3c5952; line-height: 1.6; margin-top: 1rem; }
+  footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 1.4rem 1rem 1rem; }
+</style>
+</head>
+<body>
+<div id="page-scroll">
+  <div class="hero">
+    <div class="road">📈🛤️</div>
+    <h1>學習路上</h1>
+    <p>市場 · 傳承 · 英文　把想學的變成考題，考自己一遍</p>
+    <div class="stat" id="heroStat">今天也在學習路上 💪</div>
+  </div>
+
+  <div class="wrap">
+    <section class="tab active" id="market"></section>
+    <section class="tab" id="succession"></section>
+    <section class="tab" id="english"></section>
+    <section class="tab" id="progress">
+      <div class="subj-head"><span class="em">📊</span><h2>我的進度</h2></div>
+      <p class="lead">答對的選擇題會「學會」、之後不再出現；每週還會自動加新的驗證過的題目。</p>
+      <div id="prog-list"></div>
+      <div class="note">💡 所有選擇題答案都經過查證（傳承走財政部公告與法條、市場與英文查權威來源），每週自動新增的題目也會先上網查證答案才加入，不會給你錯的答案。</div>
+    </section>
+    <footer>學習路上 · 市場 × 傳承 × 英文 · 建置 2026/07/01</footer>
+  </div>
+</div>
+
+<nav class="bottom-nav" id="nav">
+  <button class="active" data-tab="market"><span class="ic">📈</span>市場分析</button>
+  <button data-tab="succession"><span class="ic">🏛️</span>財富傳承</button>
+  <button data-tab="english"><span class="ic">🔤</span>商用英文</button>
+  <button data-tab="progress"><span class="ic">📊</span>我的進度</button>
+</nav>
+
+<script>
+/* 內容資料（選擇題答案皆經查證；申論題附評分重點供 AI 評改參考） */
+const SUBJECTS = {
+  market: { name: '市場分析', em: '📈', intro: '總經、股債匯與市場判斷的核心概念。目標：能自己形成市場觀點。',
+    choice: [
+      { q: 'GDP 是下列哪一個的縮寫？', options: ['國內生產毛額', '國民所得稅', '政府債務比', '通膨指數'], ans: 0, exp: 'GDP＝Gross Domestic Product，國內生產毛額，衡量一國一定期間內生產的最終商品與服務總值。' },
+      { q: 'CPI（消費者物價指數）主要用來衡量什麼？', options: ['失業率', '通貨膨脹', '匯率', '股市漲跌'], ans: 1, exp: 'CPI 追蹤一籃子消費商品與服務的價格變動，是衡量通膨最常用的指標。' },
+      { q: '「殖利率曲線倒掛」（短天期利率高於長天期）常被視為什麼訊號？', options: ['景氣過熱', '經濟衰退的預警', '通縮結束', '股市必漲'], ans: 1, exp: '正常曲線是長天期利率較高；倒掛代表市場預期未來降息／景氣轉弱，歷史上常領先衰退出現。' },
+      { q: '美國聯準會（Fed）的雙重使命（dual mandate）是？', options: ['穩定匯率與出口', '物價穩定與充分就業', '控制股市與房市', '降低政府赤字'], ans: 1, exp: 'Fed 法定雙重目標為 price stability 與 maximum employment（物價穩定與充分就業）。' },
+      { q: '當央行「升息」時，一般而言對資金面的直接影響是？', options: ['資金成本下降', '資金成本上升', '對市場無影響', '一定使股市大漲'], ans: 1, exp: '升息提高借貸成本、緊縮資金，通常對風險性資產短期偏空，但仍須看基本面與市場預期。' },
+      { q: '本益比（P/E ratio）偏高，通常代表？', options: ['市場對未來成長預期高（或偏貴）', '公司一定虧損', '股價一定被低估', '與獲利無關'], ans: 0, exp: 'P/E＝股價÷每股盈餘，偏高多反映市場給予高成長預期，也可能代表評價偏貴，需搭配成長性判斷。' },
+      { q: '市場動盪時，下列何者較常被視為「避險資產」？', options: ['小型成長股', '黃金與美國公債', '高收益債', '比特幣'], ans: 1, exp: '黃金與美國公債流動性高、違約風險低，市場避險情緒升高時資金常流入。' },
+      { q: '新台幣「貶值」對台灣的出口商，一般而言是？', options: ['有利', '不利', '完全無關', '一定造成虧損'], ans: 0, exp: '台幣貶值使以外幣計價的出口收入換回更多台幣，對出口商營收較有利（但進口成本上升）。' },
+    ],
+    essay: [
+      { q: '請說明「殖利率曲線倒掛」為什麼被視為經濟衰退的預警訊號，以及你平常會怎麼觀察它。', guide: '評分重點：能解釋長短天期利率的正常關係、倒掛反映的市場預期、與衰退的領先關係，並提出具體觀察方式（如 10 年減 2 年公債利差）。' },
+      { q: '當通膨升溫、央行進入升息循環，請分析對「股市、債市、房市」可能的影響。', guide: '評分重點：分別論述三個市場、說明傳導機制（資金成本、折現率、企業獲利），並點出例外或不確定性。' },
+      { q: '請用你自己的話，說明你會如何建立一套「判斷市場多空」的觀察框架。', guide: '評分重點：有結構（總經／資金／評價／情緒等面向）、可操作的指標、以及如何綜合判斷，展現個人觀點。' },
+    ] },
+  succession: { name: '財富傳承', em: '🏛️', intro: '遺產稅、贈與稅、繼承與信託的核心規則。硬數字皆依財政部公告與現行法條。',
+    choice: [
+      { q: '台灣遺產稅的免稅額（114年起適用）是多少？', options: ['1,200萬元', '1,333萬元', '1,000萬元', '2,000萬元'], ans: 1, exp: '依財政部公告，114年起遺產稅免稅額為新臺幣 1,333萬元（軍警公教因公殉職加倍為 2,666萬元）。' },
+      { q: '贈與稅每年的免稅額（以每一位「贈與人」計算）是多少？', options: ['220萬元', '244萬元', '300萬元', '110萬元'], ans: 1, exp: '每位贈與人每年（曆年制 1/1～12/31）免稅額為 244萬元，不論贈與給幾人、幾次，累計超過才課稅。' },
+      { q: '台灣遺產稅目前的「最高」邊際稅率是多少？', options: ['10%', '15%', '20%', '40%'], ans: 2, exp: '遺產稅採三級累進：10%、15%、20%，最高為 20%（贈與稅亦同）。' },
+      { q: '遺產稅課稅遺產淨額在 5,621萬元以下的部分，適用稅率為？', options: ['10%', '15%', '20%', '免稅'], ans: 0, exp: '淨額 5,621萬元以下課 10%；超過至 1億1,242萬元課 15%；再超過課 20%。' },
+      { q: '贈與稅免稅額的計算基礎是？', options: ['以受贈人計算', '以贈與人、曆年制計算', '以每筆贈與計算', '以家庭為單位'], ans: 1, exp: '免稅額 244萬元是以「贈與人」為單位、按曆年制（每年 1/1～12/31）計算，不是以受贈人計。' },
+      { q: '依民法，配偶與「直系血親卑親屬」（如子女）同為繼承人時，應繼分如何分配？', options: ['配偶拿一半，其餘均分', '全部繼承人平均分配', '配偶不能繼承', '由長子繼承'], ans: 1, exp: '民法第1144條：配偶與第一順位（直系血親卑親屬）共同繼承時，與其他繼承人「平均」分配。' },
+      { q: '依民法，直系血親卑親屬的「特留分」是其應繼分的多少？', options: ['三分之一', '二分之一', '四分之一', '全部'], ans: 1, exp: '民法第1223條：直系血親卑親屬、父母、配偶的特留分為其應繼分之「二分之一」。' },
+      { q: '遺產稅的申報期限原則上是被繼承人死亡之日起多久內？', options: ['30天', '3個月', '6個月', '1年'], ans: 2, exp: '遺產及贈與稅法第23條：納稅義務人應於被繼承人死亡之日起「6個月」內辦理遺產稅申報。' },
+      { q: '信託的三大關係人是？', options: ['委託人、受託人、受益人', '債權人、債務人、保證人', '要保人、被保險人、受益人', '買方、賣方、仲介'], ans: 0, exp: '信託由委託人（設立並移轉財產）、受託人（管理處分）、受益人（享有利益）三方構成。' },
+    ],
+    essay: [
+      { q: '請說明「贈與稅每年 244萬免稅額」的正確用法，並舉一個父母想及早移轉財產給子女的規劃例子。', guide: '評分重點：正確指出以贈與人／曆年制計算、跨年度可各用一次額度、常見誤區（如以受贈人計），並給合理、合法的規劃舉例。' },
+      { q: '客戶擔心「子女不睦、財產分配爭議」，請說明你會如何用「遺囑＋信託」的組合來協助傳承規劃。', guide: '評分重點：能說明遺囑與特留分的關係、信託如何達成分期給付／專款專用／防揮霍，並提醒特留分不可完全剝奪等法律界線。' },
+      { q: '請用你自己的話，向一位第一次接觸傳承的客戶，解釋「遺產稅」與「贈與稅」的差別與規劃時機。', guide: '評分重點：口語好懂、正確區分生前（贈與）與身後（遺產）、免稅額與稅率、及早規劃的意義。' },
+    ] },
+  english: { name: '商用英文', em: '🔤', intro: '職場與金融常用的英文字彙與表達。目標：能自在地用英文溝通與寫作。',
+    choice: [
+      { q: '"invoice" 的意思是？', options: ['發票／請款單', '收據', '合約', '報告'], ans: 0, exp: 'invoice 指賣方開給買方要求付款的「請款單／發票」。' },
+      { q: '"revenue" 在財報中通常指？', options: ['淨利', '營收', '負債', '股利'], ans: 1, exp: 'revenue＝營收（總收入），扣除成本費用後才是 profit（利潤）。' },
+      { q: 'Email 中 "Please find attached the report." 意思是？', options: ['請刪除報告', '附件是報告，請查收', '報告尚未完成', '請重寄報告'], ans: 1, exp: '這是商務 email 常用語，表示「附件為該報告，請查收」。' },
+      { q: '"quarterly" 的意思是？', options: ['每月的', '每季的', '每年的', '每週的'], ans: 1, exp: 'quarterly＝每季（一年四季）。monthly 每月、annually 每年。' },
+      { q: '"on behalf of the company" 意思是？', options: ['公司後面', '代表公司', '在公司之外', '公司內部'], ans: 1, exp: 'on behalf of＝代表（某人／某單位）。' },
+      { q: '"stakeholder" 指的是？', options: ['股東才算', '利害關係人', '競爭對手', '供應商'], ans: 1, exp: 'stakeholder 泛指與公司利益相關的各方（股東、員工、客戶、社區等），比 shareholder（股東）範圍更廣。' },
+      { q: '縮寫 "ASAP" 代表？', options: ['as soon as possible', 'as safe as possible', 'always say a prayer', 'a small area plan'], ans: 0, exp: 'ASAP＝as soon as possible（盡快）。' },
+      { q: '"deadline" 的意思是？', options: ['開始時間', '截止期限', '休息時間', '會議地點'], ans: 1, exp: 'deadline＝截止期限、最後期限。' },
+    ],
+    essay: [
+      { q: 'Write a short email (3–5 sentences) to a client to reschedule a meeting from Monday to Wednesday. 請用英文寫。', guide: '評分重點：email 結構（問候、說明、致歉、提出新時間、結尾）、禮貌用語、文法與拼字。' },
+      { q: 'In English, briefly introduce yourself and your job responsibilities (about 4–6 sentences). 請用英文自我介紹並說明工作內容。', guide: '評分重點：句型多樣、時態正確、內容清楚（職稱、職責、專長），用詞得體。' },
+    ] },
+};
+
+/* ============ 通用測驗引擎 ============ */
+const ROUND = 8;
+let cur = { subj: 'market', qs: [], idx: 0, score: 0, locked: false };
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function masteredKey(subj){ return 'xls_mastered_' + subj; }
+function getMastered(subj){ try { return new Set(JSON.parse(localStorage.getItem(masteredKey(subj)) || '[]')); } catch(e){ return new Set(); } }
+function addMastered(subj, q){ const s=getMastered(subj); s.add(q); localStorage.setItem(masteredKey(subj), JSON.stringify([...s])); }
+function resetMastered(subj){ localStorage.removeItem(masteredKey(subj)); openMode(subj, 'quiz'); }
+function remainingQs(subj){ const m=getMastered(subj); return SUBJECTS[subj].choice.filter(x => !m.has(x.q)); }
+
+function renderSubject(subj){
+  const s = SUBJECTS[subj];
+  document.getElementById(subj).innerHTML =
+    `<div class="subj-head"><span class="em">${s.em}</span><h2>${s.name}</h2></div>
+     <p class="lead">${s.intro}</p>
+     <div class="mode-btns">
+       <div class="mode-btn" onclick="openMode('${subj}','quiz')"><div class="mi">✅</div><div class="mt">選擇題</div><div class="ms">考自己 · 答對就學會</div></div>
+       <div class="mode-btn" onclick="openMode('${subj}','essay')"><div class="mi">✍️</div><div class="mt">申論題</div><div class="ms">打字或語音 · AI 回饋</div></div>
+     </div>
+     <div id="panel-${subj}"></div>`;
+}
+function openMode(subj, mode){
+  cur.subj = subj;
+  if (mode === 'quiz') quizHome(subj);
+  else essayList(subj);
+}
+
+/* 選擇題 */
+function quizHome(subj){
+  const remain = remainingQs(subj).length;
+  const total = SUBJECTS[subj].choice.length;
+  const learned = total - remain;
+  const panel = document.getElementById('panel-' + subj);
+  if (remain === 0){
+    panel.innerHTML = `<div class="q-result"><div class="big">🏆</div><h3>這一科的選擇題你全都會了！</h3><div class="sc">共 ${total} 題全部答對過，之後每週會自動補上新題目。</div><button class="btn btn-ghost" onclick="resetMastered('${subj}')">全部重新練習 🔁</button></div>`;
+    return;
+  }
+  panel.innerHTML =
+    `<div class="q-start">
+       <div style="font-size:2.2rem">✅</div>
+       <h3>${SUBJECTS[subj].name}・選擇題</h3>
+       <p>每回隨機 ${Math.min(ROUND, remain)} 題，答對的會學起來、之後不再出現。<br>還沒學會 <b>${remain}</b> 題　已學會 <b>${learned}</b> 題。</p>
+       <button class="btn" onclick="quizStart('${subj}')">開始作答 🚀</button>
+       ${learned>0 ? `<button class="btn btn-ghost" style="margin-top:.6rem" onclick="resetMastered('${subj}')">全部重新練習 🔁</button>` : ''}
+     </div>`;
+}
+function quizStart(subj){
+  const pool = remainingQs(subj);
+  cur = { subj, qs: shuffle(pool).slice(0, ROUND), idx: 0, score: 0, locked: false };
+  quizRender();
+}
+function quizRender(){
+  const panel = document.getElementById('panel-' + cur.subj);
+  if (cur.idx >= cur.qs.length) return quizResult();
+  cur.locked = false;
+  const q = cur.qs[cur.idx];
+  const pct = Math.round((cur.idx / cur.qs.length) * 100);
+  const opts = q.options.map((o,i)=>`<button class="opt" onclick="quizAnswer(${i})">${o}</button>`).join('');
+  panel.innerHTML =
+    `<div class="q-bar"><span>第 ${cur.idx+1}／${cur.qs.length} 題</span><div class="q-prog"><div style="width:${pct}%"></div></div><span>✅ ${cur.score}</span></div>
+     <div class="q-card"><span class="q-tag">${SUBJECTS[cur.subj].name}</span><div class="q-text">${q.q}</div>${opts}<div class="q-fb" id="q-fb"></div></div>`;
+}
+function quizAnswer(i){
+  if (cur.locked) return; cur.locked = true;
+  const q = cur.qs[cur.idx];
+  const btns = document.querySelectorAll('#panel-' + cur.subj + ' .opt');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('q-fb');
+  let head;
+  if (i === q.ans){ cur.score++; addMastered(cur.subj, q.q); btns[i].classList.add('correct'); fb.className='q-fb ok'; head='答對了！這題學會囉，之後不再出現 🎉'; }
+  else { btns[i].classList.add('wrong'); btns[q.ans].classList.add('correct'); fb.className='q-fb no'; head='再想想～正確答案是「' + q.options[q.ans] + '」'; }
+  const last = cur.idx >= cur.qs.length - 1;
+  fb.innerHTML = head + (q.exp ? `<div class="q-exp">💡 ${q.exp}</div>` : '') +
+    `<button class="btn q-next" onclick="quizNext()">${last ? '看結果 🏁' : '下一題 ▶'}</button>`;
+}
+function quizNext(){ cur.idx++; quizRender(); }
+function quizResult(){
+  const total = cur.qs.length;
+  const panel = document.getElementById('panel-' + cur.subj);
+  panel.innerHTML =
+    `<div class="q-result"><div class="big">${cur.score===total?'🏆':'📚'}</div><h3>這回合完成！</h3>
+       <div class="sc">答對 ${cur.score} ／ ${total} 題　${cur.score===total?'全對，太強了！':'答對的已經學會，錯的下次再練～'}</div>
+       <button class="btn" onclick="quizStart('${cur.subj}')">再來一回 🔁</button>
+       <button class="btn btn-ghost" style="margin-top:.6rem" onclick="quizHome('${cur.subj}')">回選擇題首頁</button>
+     </div>`;
+  renderProgress();
+}
+
+/* 申論題 */
+function essayList(subj){
+  const s = SUBJECTS[subj];
+  document.getElementById('panel-' + subj).innerHTML =
+    `<div class="essay-list">` +
+    s.essay.map((e,i)=>`<div class="e-item" onclick="essayOpen('${subj}',${i})"><span class="e-q">${e.q}</span><span class="go">作答 ›</span></div>`).join('') +
+    `</div>`;
+}
+function essayOpen(subj, i){
+  const e = SUBJECTS[subj].essay[i];
+  document.getElementById('panel-' + subj).innerHTML =
+    `<span class="back-link" onclick="essayList('${subj}')">‹ 回申論題列表</span>
+     <div class="essay-panel">
+       <div class="e-prompt">📝 ${e.q}</div>
+       <div class="e-guide">${e.guide}</div>
+       <div class="essay-tools">
+         <button id="micBtn" class="e-btn" onclick="toggleMic()">🎤 用說的</button>
+         <button class="e-btn" onclick="document.getElementById('essayInput').value='';document.getElementById('essay-feedback').innerHTML=''">🧹 清空</button>
+       </div>
+       <textarea id="essayInput" class="essay-input" placeholder="把你的答案寫在這裡，或按 🎤 用說的…"></textarea>
+       <button class="btn btn-gold" style="width:100%;margin-top:.6rem" onclick='gradeEssay(${JSON.stringify(e.q)}, ${JSON.stringify(e.guide)})'>送出給 AI 評改 ✍️</button>
+       <div id="essay-feedback"></div>
+     </div>`;
+}
+
+/* 麥克風（Web Speech API zh-TW；不支援時提示用鍵盤麥克風） */
+let recog = null;
+function toggleMic(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const btn = document.getElementById('micBtn');
+  if (!SR){ alert('這個裝置可用鍵盤上的 🎤 麥克風輸入：點一下輸入框，鍵盤就會出現麥克風。'); return; }
+  if (recog){ recog.stop(); return; }
+  recog = new SR(); recog.lang='zh-TW'; recog.continuous=true; recog.interimResults=false;
+  recog.onresult = e => { let t=''; for(let k=e.resultIndex;k<e.results.length;k++){ if(e.results[k].isFinal) t+=e.results[k][0].transcript; } if(t){ document.getElementById('essayInput').value += t; } };
+  const reset=()=>{ recog=null; btn.classList.remove('rec'); btn.textContent='🎤 用說的'; };
+  recog.onend=reset; recog.onerror=reset;
+  try { recog.start(); btn.classList.add('rec'); btn.textContent='🔴 停止錄音'; } catch(e){ reset(); }
+}
+function fmtFb(s){ return String(s).replace(/[<>]/g,c=>c==='<'?'&lt;':'&gt;').replace(/^#{1,4}\s*(.+)$/gm,'<h4>$1</h4>').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>'); }
+const GRADER_API = 'https://ziyu-chat.iriswen518.workers.dev';
+async function gradeEssay(question, guide){
+  const text = (document.getElementById('essayInput').value || '').trim();
+  const box = document.getElementById('essay-feedback');
+  if (!text){ box.innerHTML = '<div class="essay-fb">先寫下你的答案，AI 才能給你回饋喔～</div>'; return; }
+  box.innerHTML = '<div class="essay-fb">AI 正在評改你的答案… ✍️</div>';
+  const q = '請評改我的申論作答。\n【題目】' + question + '\n【評分重點】' + guide + '\n【我的作答】' + text;
+  try {
+    const r = await fetch(GRADER_API, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ bot:'xuexi', q, history:[] }) });
+    const d = await r.json();
+    box.innerHTML = '<div class="essay-fb">' + fmtFb(d && d.reply ? d.reply : '網路好像不太順，等一下再送一次好嗎？') + '</div>';
+  } catch(e){ box.innerHTML = '<div class="essay-fb">網路好像不太順，等一下再按一次「送出給 AI 評改」好嗎？</div>'; }
+}
+
+/* 進度 */
+function renderProgress(){
+  document.getElementById('prog-list').innerHTML = Object.keys(SUBJECTS).map(subj => {
+    const s = SUBJECTS[subj]; const total = s.choice.length; const learned = total - remainingQs(subj).length;
+    const pct = total ? Math.round(learned/total*100) : 0;
+    return `<div class="prog-card"><div class="pt"><span>${s.em} ${s.name}</span><span>${learned}／${total}</span></div>
+      <div class="prog-bar"><div style="width:${pct}%"></div></div>
+      <div class="prog-sub">選擇題已學會 ${learned} 題，還有 ${total-learned} 題　·　申論題 ${s.essay.length} 題可練習</div></div>`;
+  }).join('');
+}
+
+/* nav */
+document.getElementById('nav').addEventListener('click', e => {
+  const btn = e.target.closest('button'); if (!btn) return;
+  document.querySelectorAll('#nav button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(btn.dataset.tab).classList.add('active');
+  if (btn.dataset.tab === 'progress') renderProgress();
+  document.getElementById('page-scroll').scrollTop = 0;
+});
+
+Object.keys(SUBJECTS).forEach(renderSubject);
+renderProgress();
+</script>
+</body>
+</html>
