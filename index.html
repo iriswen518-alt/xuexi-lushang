@@ -82,6 +82,11 @@
   }
   .mode-btn:hover { border-color: var(--primary); transform: translateY(-2px); }
   .mode-btn .mi { font-size: 1.6rem; }
+  .ic-svg { width: 1em; height: 1em; display: inline-block; vertical-align: -0.14em; }
+  .bottom-nav .ic .ic-svg { width: 22px; height: 22px; }
+  .mode-btn .mi .ic-svg { width: 30px; height: 30px; color: var(--gold); }
+  .subj-head .em .ic-svg { width: 30px; height: 30px; color: var(--primary); }
+  .e-btn .ic-svg, .e-prompt .ic-svg, .prog-card .pt .ic-svg { width: 1.05em; height: 1.05em; }
   .mode-btn .mt { font-weight: 800; color: var(--primary); margin-top: .3rem; font-size: 1rem; }
   .mode-btn .ms { font-size: .76rem; color: var(--muted); margin-top: .2rem; }
 
@@ -164,10 +169,10 @@
 </div>
 
 <nav class="bottom-nav" id="nav">
-  <button class="active" data-tab="market"><span class="ic">📈</span>市場分析</button>
-  <button data-tab="succession"><span class="ic">🏛️</span>財富傳承</button>
-  <button data-tab="english"><span class="ic">🔤</span>商用英文</button>
-  <button data-tab="progress"><span class="ic">📊</span>我的進度</button>
+  <button class="active" data-tab="market"><span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 16 9 10 13 14 21 6"/><polyline points="15 6 21 6 21 12"/></svg></span>市場分析</button>
+  <button data-tab="succession"><span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M12 3l8 4H4z"/><path d="M6 10v7"/><path d="M10 10v7"/><path d="M14 10v7"/><path d="M18 10v7"/></svg></span>財富傳承</button>
+  <button data-tab="english"><span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h8"/><path d="M8 3v2"/><path d="M10.5 5c0 4-3 7-7.5 8.5"/><path d="M5 9.5c0 2 3.2 4 6.5 4"/><path d="M12.5 21l4-9 4 9"/><path d="M14 18h5"/></svg></span>商用英文</button>
+  <button data-tab="progress"><span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="21" x2="21" y2="21"/><rect x="5" y="13" width="3.4" height="6" rx="1"/><rect x="10.3" y="8" width="3.4" height="11" rx="1"/><rect x="15.6" y="10.5" width="3.4" height="8.5" rx="1"/></svg></span>我的進度</button>
 </nav>
 
 <script>
@@ -223,6 +228,22 @@ const SUBJECTS = {
     ] },
 };
 
+/* 專業單線圖示（理財小幫手風格：viewBox24、無填色、currentColor、圓角線端） */
+function svgIc(name){
+  var P = {
+    market:'<polyline points="3 16 9 10 13 14 21 6"/><polyline points="15 6 21 6 21 12"/>',
+    succession:'<path d="M3 21h18"/><path d="M12 3l8 4H4z"/><path d="M6 10v7"/><path d="M10 10v7"/><path d="M14 10v7"/><path d="M18 10v7"/>',
+    english:'<path d="M4 5h8"/><path d="M8 3v2"/><path d="M10.5 5c0 4-3 7-7.5 8.5"/><path d="M5 9.5c0 2 3.2 4 6.5 4"/><path d="M12.5 21l4-9 4 9"/><path d="M14 18h5"/>',
+    progress:'<line x1="3" y1="21" x2="21" y2="21"/><rect x="5" y="13" width="3.4" height="6" rx="1"/><rect x="10.3" y="8" width="3.4" height="11" rx="1"/><rect x="15.6" y="10.5" width="3.4" height="8.5" rx="1"/>',
+    quiz:'<circle cx="12" cy="12" r="9"/><path d="M8 12.2l2.6 2.6L16 9.2"/>',
+    essay:'<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+    mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/><path d="M8 21h8"/>',
+    clear:'<path d="M4 7h16"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M6 7l1 12h10l1-12"/>',
+    prompt:'<path d="M14 3v5h5"/><path d="M6.5 3H14l5 5v11a1 1 0 0 1-1 1H6.5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M9 13h6"/><path d="M9 17h4"/>'
+  };
+  return '<svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(P[name]||'')+'</svg>';
+}
+
 /* ============ 通用測驗引擎 ============ */
 const ROUND = 8;
 let cur = { subj: 'market', qs: [], idx: 0, score: 0, locked: false };
@@ -236,11 +257,11 @@ function remainingQs(subj){ const m=getMastered(subj); return SUBJECTS[subj].cho
 function renderSubject(subj){
   const s = SUBJECTS[subj];
   document.getElementById(subj).innerHTML =
-    `<div class="subj-head"><span class="em">${s.em}</span><h2>${s.name}</h2></div>
+    `<div class="subj-head"><span class="em">${svgIc(subj)}</span><h2>${s.name}</h2></div>
      <p class="lead">${s.intro}</p>
      <div class="mode-btns">
-       <div class="mode-btn" onclick="openMode('${subj}','quiz')"><div class="mi">✅</div><div class="mt">選擇題</div><div class="ms">考自己 · 答對就學會</div></div>
-       <div class="mode-btn" onclick="openMode('${subj}','essay')"><div class="mi">✍️</div><div class="mt">申論題</div><div class="ms">打字或語音 · AI 回饋</div></div>
+       <div class="mode-btn" onclick="openMode('${subj}','quiz')"><div class="mi">${svgIc('quiz')}</div><div class="mt">選擇題</div><div class="ms">考自己 · 答對就學會</div></div>
+       <div class="mode-btn" onclick="openMode('${subj}','essay')"><div class="mi">${svgIc('essay')}</div><div class="mt">申論題</div><div class="ms">打字或語音 · AI 回饋</div></div>
      </div>
      <div id="panel-${subj}"></div>`;
 }
@@ -324,14 +345,14 @@ function essayOpen(subj, i){
   document.getElementById('panel-' + subj).innerHTML =
     `<span class="back-link" onclick="essayList('${subj}')">‹ 回申論題列表</span>
      <div class="essay-panel">
-       <div class="e-prompt">📝 ${e.q}</div>
+       <div class="e-prompt">${svgIc('prompt')} ${e.q}</div>
        <div class="e-guide">${e.guide}</div>
        <div class="essay-tools">
-         <button id="micBtn" class="e-btn" onclick="toggleMic()">🎤 用說的</button>
-         <button class="e-btn" onclick="document.getElementById('essayInput').value='';document.getElementById('essay-feedback').innerHTML=''">🧹 清空</button>
+         <button id="micBtn" class="e-btn" onclick="toggleMic()">${svgIc('mic')} 用說的</button>
+         <button class="e-btn" onclick="document.getElementById('essayInput').value='';document.getElementById('essay-feedback').innerHTML=''">${svgIc('clear')} 清空</button>
        </div>
        <textarea id="essayInput" class="essay-input" placeholder="把你的答案寫在這裡，或按 🎤 用說的…"></textarea>
-       <button class="btn btn-gold" style="width:100%;margin-top:.6rem" onclick='gradeEssay(${JSON.stringify(e.q)}, ${JSON.stringify(e.guide)})'>送出給 AI 評改 ✍️</button>
+       <button class="btn btn-gold" style="width:100%;margin-top:.6rem" onclick='gradeEssay(${JSON.stringify(e.q)}, ${JSON.stringify(e.guide)})'>送出給 AI 評改</button>
        <div id="essay-feedback"></div>
      </div>`;
 }
@@ -345,9 +366,9 @@ function toggleMic(){
   if (recog){ recog.stop(); return; }
   recog = new SR(); recog.lang='zh-TW'; recog.continuous=true; recog.interimResults=false;
   recog.onresult = e => { let t=''; for(let k=e.resultIndex;k<e.results.length;k++){ if(e.results[k].isFinal) t+=e.results[k][0].transcript; } if(t){ document.getElementById('essayInput').value += t; } };
-  const reset=()=>{ recog=null; btn.classList.remove('rec'); btn.textContent='🎤 用說的'; };
+  const reset=()=>{ recog=null; btn.classList.remove('rec'); btn.innerHTML=svgIc('mic')+' 用說的'; };
   recog.onend=reset; recog.onerror=reset;
-  try { recog.start(); btn.classList.add('rec'); btn.textContent='🔴 停止錄音'; } catch(e){ reset(); }
+  try { recog.start(); btn.classList.add('rec'); btn.innerHTML='🔴 停止錄音'; } catch(e){ reset(); }
 }
 function fmtFb(s){ return String(s).replace(/[<>]/g,c=>c==='<'?'&lt;':'&gt;').replace(/^#{1,4}\s*(.+)$/gm,'<h4>$1</h4>').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>'); }
 const GRADER_API = 'https://ziyu-chat.iriswen518.workers.dev';
@@ -369,7 +390,7 @@ function renderProgress(){
   document.getElementById('prog-list').innerHTML = Object.keys(SUBJECTS).map(subj => {
     const s = SUBJECTS[subj]; const total = s.choice.length; const learned = total - remainingQs(subj).length;
     const pct = total ? Math.round(learned/total*100) : 0;
-    return `<div class="prog-card"><div class="pt"><span>${s.em} ${s.name}</span><span>${learned}／${total}</span></div>
+    return `<div class="prog-card"><div class="pt"><span>${svgIc(subj)} ${s.name}</span><span>${learned}／${total}</span></div>
       <div class="prog-bar"><div style="width:${pct}%"></div></div>
       <div class="prog-sub">選擇題已學會 ${learned} 題，還有 ${total-learned} 題　·　申論題 ${s.essay.length} 題可練習</div></div>`;
   }).join('');
