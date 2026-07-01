@@ -158,6 +158,8 @@
     <section class="tab active" id="market"></section>
     <section class="tab" id="succession"></section>
     <section class="tab" id="english"></section>
+    <section class="tab" id="family_trust"></section>
+    <section class="tab" id="cfp"></section>
     <section class="tab" id="progress">
       <div class="subj-head"><span class="em">📊</span><h2>我的進度</h2></div>
       <p class="lead">答對的選擇題會「學會」、之後不再出現；每週還會自動加新的驗證過的題目。</p>
@@ -172,6 +174,8 @@
   <button class="active" data-tab="market"><span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 16 9 10 13 14 21 6"/><polyline points="15 6 21 6 21 12"/></svg></span>市場分析</button>
   <button data-tab="succession"><span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M12 3l8 4H4z"/><path d="M6 10v7"/><path d="M10 10v7"/><path d="M14 10v7"/><path d="M18 10v7"/></svg></span>財富傳承</button>
   <button data-tab="english"><span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h8"/><path d="M8 3v2"/><path d="M10.5 5c0 4-3 7-7.5 8.5"/><path d="M5 9.5c0 2 3.2 4 6.5 4"/><path d="M12.5 21l4-9 4 9"/><path d="M14 18h5"/></svg></span>商用英文</button>
+  <button data-tab="family_trust"><span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>家族信託</button>
+  <button data-tab="cfp"><span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="5"/><path d="M8.5 13.2L7 21l5-2.6L17 21l-1.5-7.8"/></svg></span>CFP測驗</button>
   <button data-tab="progress"><span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="21" x2="21" y2="21"/><rect x="5" y="13" width="3.4" height="6" rx="1"/><rect x="10.3" y="8" width="3.4" height="11" rx="1"/><rect x="15.6" y="10.5" width="3.4" height="8.5" rx="1"/></svg></span>我的進度</button>
 </nav>
 
@@ -226,6 +230,10 @@ const SUBJECTS = {
       { q: 'Write a short email (3–5 sentences) to a client to reschedule a meeting from Monday to Wednesday. 請用英文寫。', guide: '評分重點：email 結構（問候、說明、致歉、提出新時間、結尾）、禮貌用語、文法與拼字。' },
       { q: 'In English, briefly introduce yourself and your job responsibilities (about 4–6 sentences). 請用英文自我介紹並說明工作內容。', guide: '評分重點：句型多樣、時態正確、內容清楚（職稱、職責、專長），用詞得體。' },
     ] },
+  family_trust: { name: '家族信託', em: '🏛️', intro: '家族信託規劃顧問師歷屆考古題（金融研訓院官方公告答案）。涵蓋信託法、遺產贈與稅、境外信託、CFC、保險傳承、家族治理等。',
+    dataUrl: 'family_trust.json', choice: [], essay: [] },
+  cfp: { name: 'CFP測驗', em: '📜', intro: 'CFP 國際認證理財規劃顧問考古題練習。題庫整理中，之後會陸續補上。',
+    choice: [], essay: [] },
 };
 
 /* 專業單線圖示（理財小幫手風格：viewBox24、無填色、currentColor、圓角線端） */
@@ -239,7 +247,9 @@ function svgIc(name){
     essay:'<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/>',
     mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/><path d="M8 21h8"/>',
     clear:'<path d="M4 7h16"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M6 7l1 12h10l1-12"/>',
-    prompt:'<path d="M14 3v5h5"/><path d="M6.5 3H14l5 5v11a1 1 0 0 1-1 1H6.5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M9 13h6"/><path d="M9 17h4"/>'
+    prompt:'<path d="M14 3v5h5"/><path d="M6.5 3H14l5 5v11a1 1 0 0 1-1 1H6.5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M9 13h6"/><path d="M9 17h4"/>',
+    family_trust:'<path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/>',
+    cfp:'<circle cx="12" cy="9" r="5"/><path d="M8.5 13.2L7 21l5-2.6L17 21l-1.5-7.8"/>'
   };
   return '<svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(P[name]||'')+'</svg>';
 }
@@ -259,24 +269,36 @@ function renderSubject(subj){
   document.getElementById(subj).innerHTML =
     `<div class="subj-head"><span class="em">${svgIc(subj)}</span><h2>${s.name}</h2></div>
      <p class="lead">${s.intro}</p>
-     <div class="mode-btns">
+     <div class="mode-btns" style="${s.essay.length ? '' : 'grid-template-columns:1fr'}">
        <div class="mode-btn" onclick="openMode('${subj}','quiz')"><div class="mi">${svgIc('quiz')}</div><div class="mt">選擇題</div><div class="ms">考自己 · 答對就學會</div></div>
-       <div class="mode-btn" onclick="openMode('${subj}','essay')"><div class="mi">${svgIc('essay')}</div><div class="mt">申論題</div><div class="ms">打字或語音 · AI 回饋</div></div>
+       ${s.essay.length ? `<div class="mode-btn" onclick="openMode('${subj}','essay')"><div class="mi">${svgIc('essay')}</div><div class="mt">申論題</div><div class="ms">打字或語音 · AI 回饋</div></div>` : ''}
      </div>
      <div id="panel-${subj}"></div>`;
 }
-function openMode(subj, mode){
+async function openMode(subj, mode){
   cur.subj = subj;
-  if (mode === 'quiz') quizHome(subj);
-  else essayList(subj);
+  const s = SUBJECTS[subj];
+  if (mode === 'quiz'){
+    if (s.dataUrl && s.choice.length === 0){
+      const panel = document.getElementById('panel-' + subj);
+      if (panel) panel.innerHTML = '<div class="q-start"><h3>題庫載入中…📚</h3></div>';
+      try { const r = await fetch(s.dataUrl); s.choice = await r.json(); }
+      catch(e){ if(panel) panel.innerHTML = '<div class="q-start"><h3>題庫載入失敗</h3><p>換個網路或稍後再試～</p></div>'; return; }
+    }
+    quizHome(subj);
+  } else essayList(subj);
 }
 
 /* 選擇題 */
 function quizHome(subj){
-  const remain = remainingQs(subj).length;
   const total = SUBJECTS[subj].choice.length;
-  const learned = total - remain;
   const panel = document.getElementById('panel-' + subj);
+  if (total === 0){
+    panel.innerHTML = `<div class="q-start"><div style="font-size:2.2rem">🚧</div><h3>${SUBJECTS[subj].name}・題庫準備中</h3><p>之後會陸續補上考古題，敬請期待～</p></div>`;
+    return;
+  }
+  const remain = remainingQs(subj).length;
+  const learned = total - remain;
   if (remain === 0){
     panel.innerHTML = `<div class="q-result"><div class="big">🏆</div><h3>這一科的選擇題你全都會了！</h3><div class="sc">共 ${total} 題全部答對過，之後每週會自動補上新題目。</div><button class="btn btn-ghost" onclick="resetMastered('${subj}')">全部重新練習 🔁</button></div>`;
     return;
