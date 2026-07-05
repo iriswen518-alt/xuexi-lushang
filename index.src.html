@@ -683,6 +683,7 @@ document.getElementById('nav').addEventListener('click', e => {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById(btn.dataset.tab).classList.add('active');
   if (btn.dataset.tab === 'progress') renderProgress();
+  if (btn.dataset.tab === 'experts' && expertsData.length > 0) renderExpertsList(expertsData);
   document.getElementById('page-scroll').scrollTop = 0;
 });
 
@@ -771,6 +772,73 @@ async function sendLu(){
   if (btn) btn.disabled=false;
   if (input) input.focus();
 }
+
+// ===== EXPERT LIBRARY =====
+let expertsData = [];
+
+function loadExperts() {
+  fetch('experts.json')
+    .then(r => r.json())
+    .then(data => {
+      expertsData = data.experts;
+      // Render immediately if experts tab is active
+      if (document.querySelector('.tab#experts.active')) {
+        renderExpertsList(expertsData);
+      }
+    })
+    .catch(err => console.error('experts.json load failed', err));
+}
+
+function renderExpertsList(experts) {
+  const container = document.getElementById('experts-list');
+  if (!container || container.dataset.rendered) return;
+  container.dataset.rendered = '1';
+  container.innerHTML = experts.map(expert => `
+    <div class="expert-card" id="expert-${expert.id}">
+      <div class="expert-collapsed">
+        <div class="expert-header-compact">${expert.name}</div>
+        <div class="expert-title-compact">${expert.title}</div>
+        <div class="expert-tags">${expert.tags.map(t => `<span class="expert-tag">#${t}</span>`).join('')}</div>
+      </div>
+      <div class="expert-expanded">
+        <div class="expert-expanded-name">
+          <span>${expert.name}</span>
+          <button class="expert-close-btn" data-close="${expert.id}" onclick="event.stopPropagation();toggleExpert('${expert.id}')">✕</button>
+        </div>
+        <div class="expert-title-compact">${expert.title}</div>
+        <div class="expert-bio">${expert.bio}</div>
+        ${expert.sections.map(sec => `
+          <div class="expert-section">
+            <div class="expert-section-theme">${sec.theme}</div>
+            ${sec.links.map(link => `
+              <div class="expert-link">
+                <a href="${link.url}" target="_blank" rel="noopener" class="expert-link-title">
+                  <span>${link.title}</span>
+                  <svg class="expert-link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                </a>
+                <div><span class="expert-link-source">${link.source}</span><span class="expert-link-desc">${link.description}</span></div>
+              </div>
+            `).join('')}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  container.querySelectorAll('.expert-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const id = card.id.replace('expert-', '');
+      toggleExpert(id);
+    });
+  });
+}
+
+function toggleExpert(id) {
+  const card = document.getElementById('expert-' + id);
+  if (card) card.classList.toggle('expanded');
+}
+
+loadExperts();
 </script>
 
 <!-- 路上聊聊 -->
