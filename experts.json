@@ -1,0 +1,424 @@
+{
+  "experts": [
+    {
+      "id": "wu-jialone",
+      "name": "吳嘉隆",
+      "title": "經濟學分析家",
+      "bio": "台灣及全球經濟趨勢分析家，長期從事總體經濟研究，深度剖析重大經濟事件。",
+      "tags": ["總體經濟", "股市", "投資策略"],
+      "sections": [
+        {
+          "theme": "總體經濟",
+          "links": [
+            {
+              "title": "2024年全球經濟展望",
+              "description": "美中貿易局勢與全球利率趨勢分析",
+              "source": "YouTube",
+              "url": "https://example.com/wu-global-2024"
+            },
+            {
+              "title": "台灣經濟未來挑戰",
+              "description": "半導體産業與人口結構對經濟的影響",
+              "source": "部落格",
+              "url": "https://example.com/wu-taiwan-challenge"
+            },
+            {
+              "title": "2026年景氣預測",
+              "description": "央行政策與房市的相互作用分析",
+              "source": "新聞",
+              "url": "https://example.com/wu-outlook-2026"
+            }
+          ]
+        },
+        {
+          "theme": "股市分析",
+          "links": [
+            {
+              "title": "科技股周期與輪動",
+              "description": "AI浪潮下台股科技類股的投資邏輯",
+              "source": "Podcast",
+              "url": "https://example.com/wu-tech-cycle"
+            },
+            {
+              "title": "外資買賣超與台股走勢",
+              "description": "外資資金流向解讀實務",
+              "source": "YouTube",
+              "url": "https://example.com/wu-foreign-investors"
+            }
+          ]
+        },
+        {
+          "theme": "投資策略",
+          "links": [
+            {
+              "title": "景氣循環投資法",
+              "description": "根據經濟周期調整資產配置的實操指南",
+              "source": "線上課程",
+              "url": "https://example.com/wu-cycle-strategy"
+            },
+            {
+              "title": "風險管理與停損設定",
+              "description": "如何在波動市場中保護資本",
+              "source": "部落格",
+              "url": "https://example.com/wu-risk-mgmt"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zhang-minghui",
+      "name": "張明輝",
+      "title": "會計師 / 財務顧問",
+      "bio": "執業會計師，專長企業財稅規劃與家族傳承設計，已服務逾千位高淨值客戶。",
+      "tags": ["企業財務", "稅務規劃", "家族信託"],
+      "sections": [
+        {
+          "theme": "企業財務",
+          "links": [
+            {
+              "title": "新公司法下的股權規劃",
+              "description": "2023年新修法對股權結構的影響與調整建議",
+              "source": "新聞",
+              "url": "https://example.com/zhang-equity"
+            },
+            {
+              "title": "創業初期財務結構設計",
+              "description": "如何規劃股權配置與融資策略",
+              "source": "線上課程",
+              "url": "https://example.com/zhang-startup-finance"
+            },
+            {
+              "title": "公司估值與退場規劃",
+              "description": "併購、上市與股權轉讓的財務考量",
+              "source": "部落格",
+              "url": "https://example.com/zhang-valuation-exit"
+            }
+          ]
+        },
+        {
+          "theme": "稅務規劃",
+          "links": [
+            {
+              "title": "高淨值族群的稅效優化",
+              "description": "合法節稅的策略與注意事項",
+              "source": "部落格",
+              "url": "https://example.com/zhang-tax"
+            },
+            {
+              "title": "國際稅務與海外資產配置",
+              "description": "跨境移居與退稅政策解析",
+              "source": "YouTube",
+              "url": "https://example.com/zhang-intl-tax"
+            },
+            {
+              "title": "贈與稅與遺產稅規劃",
+              "description": "傳承前必知的稅務眉角",
+              "source": "線上課程",
+              "url": "https://example.com/zhang-gift-estate-tax"
+            }
+          ]
+        },
+        {
+          "theme": "家族信託",
+          "links": [
+            {
+              "title": "信託規劃101",
+              "description": "家族資產傳承的信託工具完全指南",
+              "source": "線上課程",
+              "url": "https://example.com/zhang-trust"
+            },
+            {
+              "title": "信託 vs. 遺囑：選擇指南",
+              "description": "兩種傳承方式的優缺點與適用場景",
+              "source": "部落格",
+              "url": "https://example.com/zhang-trust-vs-will"
+            },
+            {
+              "title": "家族信託實務案例",
+              "description": "真實案例拆解常見的傳承困境與解方",
+              "source": "Podcast",
+              "url": "https://example.com/zhang-trust-cases"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "economist-a",
+      "name": "陳家琪",
+      "title": "產業分析師",
+      "bio": "聚焦台灣半導體與電子產業，提供前瞻性的產業研究與投資視角。",
+      "tags": ["半導體", "電子產業", "供應鏈"],
+      "sections": [
+        {
+          "theme": "半導體趨勢",
+          "links": [
+            {
+              "title": "2024年晶片產業大預測",
+              "description": "AI晶片需求與成熟製程的新機會",
+              "source": "新聞",
+              "url": "https://example.com/chen-chip-2024"
+            },
+            {
+              "title": "台積電與三星的競爭態勢",
+              "description": "先進製程與工藝創新的最新進展",
+              "source": "部落格",
+              "url": "https://example.com/chen-tsmc-samsung"
+            },
+            {
+              "title": "AI晶片浪潮下的投資機會",
+              "description": "從晶片設計到封測的完整產業鏈分析",
+              "source": "YouTube",
+              "url": "https://example.com/chen-ai-chip-boom"
+            }
+          ]
+        },
+        {
+          "theme": "供應鏈分析",
+          "links": [
+            {
+              "title": "地緣政治對台灣電子業的影響",
+              "description": "貿易變化與廠商應對策略",
+              "source": "部落格",
+              "url": "https://example.com/chen-geopolitics"
+            },
+            {
+              "title": "全球缺料風險與庫存周期",
+              "description": "如何從供應鏈異常預測股票走勢",
+              "source": "Podcast",
+              "url": "https://example.com/chen-supply-shortage"
+            }
+          ]
+        },
+        {
+          "theme": "個股深度分析",
+          "links": [
+            {
+              "title": "晶片設計股的成長潛力",
+              "description": "聯詠、瑞昱等設計公司的投資邏輯",
+              "source": "線上課程",
+              "url": "https://example.com/chen-design-houses"
+            },
+            {
+              "title": "封測產業的轉型與機會",
+              "description": "日月光、力成等廠商的競爭優勢分析",
+              "source": "部落格",
+              "url": "https://example.com/chen-packaging-test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fund-manager-b",
+      "name": "王建民",
+      "title": "基金經理人",
+      "bio": "擁有20年投資經驗，專長全球資產配置與風險管理，管理資產超過100億。",
+      "tags": ["資產配置", "國際投資", "風險管理"],
+      "sections": [
+        {
+          "theme": "資產配置",
+          "links": [
+            {
+              "title": "2026年投資展望",
+              "description": "股債配置與新興市場機會評估",
+              "source": "YouTube",
+              "url": "https://example.com/wang-allocation-2026"
+            },
+            {
+              "title": "現代投資組合理論實務應用",
+              "description": "如何根據風險承受度優化配置",
+              "source": "線上課程",
+              "url": "https://example.com/wang-mpt-practical"
+            },
+            {
+              "title": "景氣反轉時的資產輪動",
+              "description": "從衰退信號到復甦配置的轉換策略",
+              "source": "部落格",
+              "url": "https://example.com/wang-cycle-rotation"
+            }
+          ]
+        },
+        {
+          "theme": "國際投資",
+          "links": [
+            {
+              "title": "美國股票市場投資指南",
+              "description": "標普500 vs. 納斯達克選擇與配置比例",
+              "source": "部落格",
+              "url": "https://example.com/wang-us-stocks"
+            },
+            {
+              "title": "新興市場的選股邏輯",
+              "description": "印度、越南、菲律賓等高成長市場分析",
+              "source": "Podcast",
+              "url": "https://example.com/wang-emerging-markets"
+            }
+          ]
+        },
+        {
+          "theme": "風險管理",
+          "links": [
+            {
+              "title": "波動率管理與VIX運用",
+              "description": "透過衍生工具降低投資組合風險",
+              "source": "線上課程",
+              "url": "https://example.com/wang-volatility-mgmt"
+            },
+            {
+              "title": "黑天鵝事件的投資應對",
+              "description": "如何在極端行情中保護資本並尋找機會",
+              "source": "YouTube",
+              "url": "https://example.com/wang-black-swan"
+            },
+            {
+              "title": "分散投資的迷思與真相",
+              "description": "實現真正分散 vs. 過度分散的界線",
+              "source": "部落格",
+              "url": "https://example.com/wang-diversification"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "insurance-expert-c",
+      "name": "李思穎",
+      "title": "保險顧問",
+      "bio": "保險專家，協助家庭與企業規劃完整的風險防護方案，從小資到高資淨值全覆蓋。",
+      "tags": ["保險規劃", "風險管理", "家庭保障"],
+      "sections": [
+        {
+          "theme": "家庭保障",
+          "links": [
+            {
+              "title": "人生各階段的保險規劃",
+              "description": "從單身到退休的完整保障藍圖",
+              "source": "部落格",
+              "url": "https://example.com/lee-lifecycle-insurance"
+            },
+            {
+              "title": "壽險與投資型保單怎麼選",
+              "description": "傳統保險 vs. 投資型保單的優缺點分析",
+              "source": "YouTube",
+              "url": "https://example.com/lee-life-insurance-types"
+            },
+            {
+              "title": "醫療保險規劃指南",
+              "description": "健保外的醫療費用如何靠保險補足",
+              "source": "線上課程",
+              "url": "https://example.com/lee-health-insurance"
+            }
+          ]
+        },
+        {
+          "theme": "風險評估",
+          "links": [
+            {
+              "title": "保障額度計算實務",
+              "description": "根據家庭支出與負債計算合理保額",
+              "source": "部落格",
+              "url": "https://example.com/lee-coverage-calc"
+            },
+            {
+              "title": "失能與重大傷病保險",
+              "description": "長期照護與醫療風險的綜合防護",
+              "source": "Podcast",
+              "url": "https://example.com/lee-disability-critical"
+            }
+          ]
+        },
+        {
+          "theme": "企業與高資淨值",
+          "links": [
+            {
+              "title": "企業員工福利設計",
+              "description": "團體保險與個人保單的搭配策略",
+              "source": "線上課程",
+              "url": "https://example.com/lee-corporate-benefits"
+            },
+            {
+              "title": "高資淨值族群的保險規劃",
+              "description": "資產保護、節稅與傳承的保險應用",
+              "source": "部落格",
+              "url": "https://example.com/lee-hnw-insurance"
+            },
+            {
+              "title": "信託結合保險的傳承妙用",
+              "description": "透過保險工具優化家族資產配置",
+              "source": "YouTube",
+              "url": "https://example.com/lee-insurance-trust"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "market-strategist-d",
+      "name": "劉家明",
+      "title": "市場策略師",
+      "bio": "從事金融市場分析超過15年，擅長宏觀策略與市場循環研究，致力於投資者教育。",
+      "tags": ["市場循環", "策略研究", "技術分析"],
+      "sections": [
+        {
+          "theme": "市場循環",
+          "links": [
+            {
+              "title": "牛熊市轉換的信號與時機",
+              "description": "如何從技術面、基本面與資金面判斷轉折",
+              "source": "部落格",
+              "url": "https://example.com/liu-bull-bear-signals"
+            },
+            {
+              "title": "季節性行情與曆法效應",
+              "description": "特定時間點的統計性規律與投資應用",
+              "source": "YouTube",
+              "url": "https://example.com/liu-seasonal-patterns"
+            }
+          ]
+        },
+        {
+          "theme": "策略研究",
+          "links": [
+            {
+              "title": "動能交易 vs. 均值回歸策略",
+              "description": "兩大交易策略的對比與選擇標準",
+              "source": "線上課程",
+              "url": "https://example.com/liu-momentum-reversion"
+            },
+            {
+              "title": "資金面分析與大戶追蹤",
+              "description": "透過機構投資人動向預測市場方向",
+              "source": "Podcast",
+              "url": "https://example.com/liu-fund-flow"
+            },
+            {
+              "title": "政策與央行決策對市場的影響",
+              "description": "利率、量化寬鬆與政策信號的市場反應",
+              "source": "部落格",
+              "url": "https://example.com/liu-policy-impact"
+            }
+          ]
+        },
+        {
+          "theme": "技術分析",
+          "links": [
+            {
+              "title": "K線型態與突破交易",
+              "description": "經典技術面型態的應用與風險控管",
+              "source": "線上課程",
+              "url": "https://example.com/liu-candlestick-patterns"
+            },
+            {
+              "title": "技術指標的正確用法",
+              "description": "MACD、RSI、布林通道的實務應用與陷阱",
+              "source": "YouTube",
+              "url": "https://example.com/liu-technical-indicators"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
