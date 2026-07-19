@@ -676,15 +676,31 @@ function renderProgress(){
 }
 
 /* nav */
-document.getElementById('nav').addEventListener('click', e => {
-  const btn = e.target.closest('button'); if (!btn) return;
+function activateTab(name) {
+  const btn = document.querySelector('#nav button[data-tab="' + name + '"]');
+  const pane = document.getElementById(name);
+  if (!btn || !pane) return false;
   document.querySelectorAll('#nav button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(btn.dataset.tab).classList.add('active');
-  if (btn.dataset.tab === 'progress') renderProgress();
-  if (btn.dataset.tab === 'experts' && expertsData.length > 0) renderExpertsList(expertsData);
+  pane.classList.add('active');
+  if (name === 'progress') renderProgress();
+  if (name === 'experts' && expertsData.length > 0) renderExpertsList(expertsData);
   document.getElementById('page-scroll').scrollTop = 0;
+  return true;
+}
+document.getElementById('nav').addEventListener('click', e => {
+  const btn = e.target.closest('button'); if (!btn) return;
+  if (activateTab(btn.dataset.tab)) {
+    try { localStorage.setItem('xl_lastTab', btn.dataset.tab); } catch (_) {}
+  }
+});
+/* 聰明預設值：記住上次分頁，下次打開直接回到那頁（等整份 script 載完再還原） */
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    const xlLast = localStorage.getItem('xl_lastTab');
+    if (xlLast && xlLast !== 'market') activateTab(xlLast);
+  } catch (_) {}
 });
 
 Object.keys(SUBJECTS).forEach(renderSubject);
